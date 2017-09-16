@@ -1,4 +1,79 @@
- <p id='comment-{{ object.id }}'> {{ object.comment }} </p>
+<div class="comment" style="margin-left: 10px; margin-top: 4px;">
+    <div class="content">
+		<a class="author">{{ object.username }}</a>
+		<div class="metadata">
+	        <div class="date"> {{ object.timestamp | timesince }} ago.</div>
+    	</div> 
+	  	{% if object.user %}    	
+	    	{% if object.user.id == user.id or object.content_object.author.id == user.id %}
+	      	<div class="ui right floated dropdown icon mini button" style="background-color: rgba(0,0,0,0); margin-right: 10px; margin-top: 4px;">
+			    <i class="chevron down icon"></i>
+			    <div class="menu">
+					{% if object.user.id == user.id %}
+			     	<div class="item" data-value="drop">
+						<a class='comment-edit-class' data-id='{{ object.id }}' style="color: black"><i class="edit icon"></i> Edit</a>		
+			      	</div>
+			      	{% endif %}
+					{% if object.user.id == user.id or object.content_object.author.id == user.id %}
+	    		  	<div class="item" data-value="horizontal flip">
+		    		  	<form class="comment-delete-form" method='DELETE' action="{% url "comment-delete" object.pk %}">
+							<input value="{% csrf_token %}" id="csrf" hidden>
+							{% csrf_token %}
+							
+							<a value="Delete" class="comment-delete-btn" data-id="{{ object.id }}" style="color: black;"><i class="trash icon"></i> Delete</a>
+						</form>
+					</div>
+			      	{% endif %}
+			    </div>
+		  	</div>
+			{% endif %}
+		{% endif %}
+	    <div class="text">
+	        <h4 id='comment-{{ object.id }}'> {{ object.comment | linebreaks }} </h4>
+	        {% if object.user.id == user.id or object.content_object.author.id == user.id %}
+			 	<div id="comment-edit-{{ object.id }}" hidden>
+					{% include "comments/comment_edit_form.html" with pk=object.id form=form %}
+				</div>
+			{% endif %}
+	    </div>
+
+	    <div class="actions">	
+			{% if allow_likes and user.is_authenticated %}	
+			{% if liked %}	
+				<a class="like-comment-btn" id="like-btn-{{ object.id }}" data-like="liked" data-id="{{ object.id }}"> 
+					<i class="red heart icon"></i> Unlike  
+				</a>
+				<a class="mini ui left pointing label">
+					<p id="likes-count-{{ object.id }}" >{{ object.likes_count }}</p>
+				</a>		
+			{% else %}
+				<a class="like-comment-btn" id="like-btn-{{ object.id }}" data-like="like" data-id="{{ object.id }}">
+				  	<i class="heart icon"></i> Like
+				</a>
+				<a class="mini ui left pointing label">
+					<p id="likes-count-{{ object.id }}" >{{ object.likes_count }}</p>
+				</a>
+			{% endif %}	
+			{% endif %}
+			<div class="ui divider"></div>
+	    </div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+	$('.dropdown')
+  .dropdown({
+    // you can use any ui transition
+    transition: 'drop'
+  })
+;
+</script>
+
+
+
+
+<!--  <p id='comment-{{ object.id }}'> {{ object.comment }} </p>
  <div id="comment-edit-{{ object.id }}" hidden>
 	{% include "comments/comment_edit_form.html" with pk=object.id form=form %}
 </div>
@@ -40,6 +115,4 @@
 		
 	{% endif %}	
 {% endif %}
-
-
-<br> ------------------- <br>
+ -->

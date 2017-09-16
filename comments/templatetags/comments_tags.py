@@ -63,13 +63,23 @@ def comment_form(object, user):
             "allow_anonymous": getattr(
                 settings,
                 'COMMENTS_ALLOW_ANONYMOUS',
+                False),
+            "emoji": getattr(
+                settings,
+                'COMMENTS_ALLOW_EMOJI',
                 False)}
 
 
 register.inclusion_tag('comments/comment_form.html')(comment_form)
 
 
-def include_jQuery():
+def include_js():
     return
 
-register.inclusion_tag('comments/jQuery.html')(include_jQuery)
+register.inclusion_tag('comments/js.html')(include_js)
+
+
+def include_css():
+    return
+
+register.inclusion_tag('comments/css.html')(include_css)

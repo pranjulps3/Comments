@@ -4,10 +4,10 @@ from setuptools import find_packages
 
 setup(
     name='django-ajax-comments',
-    version='1.1.0.dev1',
-    author=u'DREIDEV',
-    author_email='info@dreidev.com',
-    url='https://github.com/dreidev/Comments',
+    version='1.2.0.dev1',
+    author=u'pranjulps3',
+    author_email='pranjul.ps3@gmail.com',
+    url='https://github.com/pranjulps3/Comments',
     license='MIT',
     classifiers=[
         'Development Status :: 3 - Alpha',

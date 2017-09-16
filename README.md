@@ -17,19 +17,14 @@ List of actions you can do:
 * Edit a comment you posted (Authenticated)
 * Delete a comment you posted (Authenticated)
 * Like a comment (Authenticated)
+* Emojis for comments
 
 ####All actions are done through ajax
 
 ##Installation
 
-Installation is available via `pip`
-
-`$ pip install django-ajax-comments`
-
-or via source on github
-
 ```
-$ git clone https://github.com/dreidev/Comments.git
+$ git clone https://github.com/pranjulps3/Comments.git
 $ cd Comments
 $ python setup.py install
 ```
@@ -49,11 +44,11 @@ INSTALLED_APPS = (
 In your urls.py:
 
 ```python
-urlpatterns = patterns('',
+urlpatterns = [
     ...
     url(r'^comments/', include('comments.urls')),
     ...
-)
+]
 ```
 
 
@@ -94,11 +89,19 @@ The last template tag `{% get_comment_count object %}` is already included in `{
 
 ---
 
-This requires jQuery. If you're not already including it, we have a template tag that you can include in your html.
+Semantic UI is used to style the comments so to make it look good you can include css which currently is through online CDN directly by adding `{% include_css %}` after `{% load comments_tags %}` .
+```python
+{% load comments_tags %}
+{% include_css %}
+```
+
+---
+
+To make ajax function you need to load a template having all the JavaScript required for the project to run including jQuery.
 ######It should be added after `{% load comments_tags %}` directly.
 ```python
 {% load comments_tags %}
-{% include_jQuery %}
+{% include_js %}
 ```
 
 ##Settings
@@ -113,6 +116,16 @@ To set it to `True`, add the following to `settings.py`:
 COMMENTS_ALLOW_ANONYMOUS = True
 ```
 
+####`COMMENTS_ALLOW_EMOJI`
+>Its default is `False`.                                                                                                                   
+>If set to `True`, Users will be allowed to post emojis in comments.
+
+To set it to `True`, add the following to `settings.py`:
+```python
+COMMENTS_ALLOW_ANONYMOUS = True
+```
+
+
 ####`COMMENTS_ALLOW_LIKES`
 >Its default is `True`.                                                                                                                   
 >It allows authenticated users to like/unlike comments.
@@ -123,9 +136,9 @@ COMMENTS_ALLOW_LIKES = False
 ```
 
 ##Styling
-If you want to customize the way your comments look follow the following steps:
+By default the comments are styled with Semantic UI. Although you can change that by following these simple steps:
 * In your template directory, create a folder and call it comments
 * Retrieve the html templates for the comments application from its directory which can be found in your sitepackages and github as well.
 * Manipulate those templates as you see fit by adding css classes and such.
 
-and you're done.
+and you're done. Make sure not to mess with the `div` tags around comment form as emojis might stop working.

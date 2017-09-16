@@ -13,12 +13,12 @@ class Comment(models.Model):
     object_id = models.PositiveIntegerField(null=True)
     content_object = GenericForeignKey('content_type', 'object_id')
     user = models.ForeignKey(User, null=True, blank=True)
-
+    username = models.CharField(max_length=30, null=True, blank=True)
     comment = models.CharField(max_length=512)
     likes_count = models.IntegerField(
         default=0,
         validators=[MinValueValidator(0)])
-    created_at = models.DateTimeField(
+    timestamp = models.DateTimeField(
         auto_now_add=True, verbose_name='Created at')
 
 
@@ -29,3 +29,19 @@ class Like(models.Model):
     """
     user = models.ForeignKey(User)
     comment = models.ForeignKey(Comment)
+
+
+class Reply(models.Model):
+    """
+    Replies belonging to comments
+    For one level nested comments
+    """
+    user = models.ForeignKey(User, null=True, blank=True)
+    parent_comment = models.ForeignKey(Comment, related_name="replies")
+    comment = models.CharField(max_length=512)
+    username = models.CharField(max_length=30, null=True, blank=True)
+    likes_count = models.IntegerField(
+        default=0,
+        validators=[MinValueValidator(0)])
+    timestamp = models.DateTimeField(
+        auto_now_add=True, verbose_name='Created at')

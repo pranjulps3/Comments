@@ -3,8 +3,7 @@ from .views import (
     CommentCreateView, CommentDeleteView,
     LikeComment, UnlikeComment, CommentUpdateView)
 
-urlpatterns = patterns(
-    '',
+urlpatterns = [
     url(r'^create/$', CommentCreateView.as_view(), name='comment-create'),
     url(
         r'update/(?P<pk>[0-9]+)/$',
@@ -14,4 +13,4 @@ urlpatterns = patterns(
         CommentDeleteView.as_view(), name='comment-delete'),
     url(r'^like/$', LikeComment.as_view(), name='comment-like'),
     url(r'^unlike/$', UnlikeComment.as_view(), name='comment-unlike'),
-)
+]

@@ -83,6 +83,11 @@ class CommentCreateView(AjaxableResponseMixin, CreateView):
             model_object = content_type.get_object_for_this_type(
                 id=self.request.POST['model_id'])
             comment.content_object = model_object
+            if getattr(settings, 'COMMENTS_ALLOW_ANONYMOUS', False) and not self.request.user.is_authenticated:
+                comment.username = str(self.request.POST['anonymous_name'])+"(Anonymous User)"
+            else:
+                comment.username = comment.user.username
+            print(comment.user.username)
         except:
             pass
         comment.save()

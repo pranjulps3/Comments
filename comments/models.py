@@ -28,7 +28,7 @@ class Like(models.Model):
     belonging to a Comment
     """
     user = models.ForeignKey(User)
-    comment = models.ForeignKey(Comment)
+    comment = models.OneToOneField(Comment)
 
 
 class Reply(models.Model):
@@ -40,8 +40,10 @@ class Reply(models.Model):
     parent_comment = models.ForeignKey(Comment, related_name="replies")
     comment = models.CharField(max_length=512)
     username = models.CharField(max_length=30, null=True, blank=True)
+    liked_by = models.ManyToManyField(User, related_name = 'liked_reply')
     likes_count = models.IntegerField(
         default=0,
         validators=[MinValueValidator(0)])
     timestamp = models.DateTimeField(
         auto_now_add=True, verbose_name='Created at')
+
